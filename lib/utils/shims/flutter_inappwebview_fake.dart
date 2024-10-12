@@ -1,4 +1,4 @@
-library flutter_inappwebview_fake;
+library;
 
 ///Class that is used by [WebView.shouldOverrideUrlLoading] event.
 ///It represents the policy to pass back to the decision handler.
@@ -45,7 +45,8 @@ class ContextMenu {
   ///Event fired when a context menu item has been clicked.
   ///
   ///[contextMenuItemClicked] represents the [ContextMenuItem] clicked.
-  final void Function(ContextMenuItem contextMenuItemClicked)? onContextMenuActionItemClicked;
+  final void Function(ContextMenuItem contextMenuItemClicked)?
+      onContextMenuActionItemClicked;
 
   ///Context menu options.
   final ContextMenuOptions? options;
@@ -91,7 +92,8 @@ class ContextMenuItem {
   ///Menu item action that will be called when an user clicks on it.
   Function()? action;
 
-  ContextMenuItem({this.androidId, this.iosId, required this.title, this.action});
+  ContextMenuItem(
+      {this.androidId, this.iosId, required this.title, this.action});
 
   Map<String, dynamic> toMap() {
     return {'androidId': androidId, 'iosId': iosId, 'title': title};
@@ -115,7 +117,9 @@ class ContextMenuOptions {
   ContextMenuOptions({this.hideDefaultSystemContextMenuItems = false});
 
   Map<String, dynamic> toMap() {
-    return {'hideDefaultSystemContextMenuItems': hideDefaultSystemContextMenuItems};
+    return {
+      'hideDefaultSystemContextMenuItems': hideDefaultSystemContextMenuItems
+    };
   }
 
   Map<String, dynamic> toJson() {
@@ -142,7 +146,8 @@ class UserScriptInjectionTime {
   static UserScriptInjectionTime? fromValue(int? value) {
     if (value != null) {
       try {
-        return UserScriptInjectionTime.values.firstWhere((element) => element.toValue() == value);
+        return UserScriptInjectionTime.values
+            .firstWhere((element) => element.toValue() == value);
       } catch (e) {
         return null;
       }
@@ -252,12 +257,14 @@ class ContentWorld {
   ///Returns the custom content world with the specified name.
   ContentWorld.world({required this.name}) {
     // WINDOW-ID- is used internally by the plugin!
-    assert(!name.startsWith('WINDOW-ID-') && !name.contains(_contentWorldNameRegExp));
+    assert(!name.startsWith('WINDOW-ID-') &&
+        !name.contains(_contentWorldNameRegExp));
   }
 
   ///The default world for clients.
   // ignore: non_constant_identifier_names
-  static final ContentWorld DEFAULT_CLIENT = ContentWorld.world(name: 'defaultClient');
+  static final ContentWorld DEFAULT_CLIENT =
+      ContentWorld.world(name: 'defaultClient');
 
   ///The content world for the current webpage’s content.
   ///This property contains the content world for scripts that the current webpage executes.

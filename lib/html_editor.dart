@@ -1,23 +1,21 @@
-library html_editor;
-
-export 'package:html_editor_plus/src/widgets/toolbar_widget.dart';
-export 'package:html_editor_plus/utils/callbacks.dart';
-export 'package:html_editor_plus/utils/toolbar.dart';
-export 'package:html_editor_plus/utils/plugins.dart';
-export 'package:html_editor_plus/utils/file_upload_model.dart';
-export 'package:html_editor_plus/utils/options.dart';
-export 'package:html_editor_plus/utils/utils.dart' hide setState, intersperse, getRandString;
-
-export 'package:html_editor_plus/src/html_editor_unsupported.dart'
-    if (dart.library.html) 'package:html_editor_plus/src/html_editor_web.dart'
-    if (dart.library.io) 'package:html_editor_plus/src/html_editor_mobile.dart';
+library;
 
 export 'package:html_editor_plus/src/html_editor_controller_unsupported.dart'
     if (dart.library.html) 'package:html_editor_plus/src/html_editor_controller_web.dart'
     if (dart.library.io) 'package:html_editor_plus/src/html_editor_controller_mobile.dart';
-
+export 'package:html_editor_plus/src/html_editor_unsupported.dart'
+    if (dart.library.html) 'package:html_editor_plus/src/html_editor_web.dart'
+    if (dart.library.io) 'package:html_editor_plus/src/html_editor_mobile.dart';
+export 'package:html_editor_plus/src/widgets/toolbar_widget.dart';
+export 'package:html_editor_plus/utils/callbacks.dart';
+export 'package:html_editor_plus/utils/file_upload_model.dart';
+export 'package:html_editor_plus/utils/options.dart';
+export 'package:html_editor_plus/utils/plugins.dart';
 export 'package:html_editor_plus/utils/shims/flutter_inappwebview_fake.dart'
     if (dart.library.io) 'package:flutter_inappwebview/flutter_inappwebview.dart';
+export 'package:html_editor_plus/utils/toolbar.dart';
+export 'package:html_editor_plus/utils/utils.dart'
+    hide setState, intersperse, getRandString;
 
 export 'src/plus/core/enums.dart' show UploadError;
 
@@ -80,7 +78,15 @@ enum ButtonType {
 }
 
 /// Returns the type of dropdown changed in the `onDropdownChanged` function
-enum DropdownType { style, fontName, fontSize, fontSizeUnit, listStyles, lineHeight, caseConverter }
+enum DropdownType {
+  style,
+  fontName,
+  fontSize,
+  fontSizeUnit,
+  listStyles,
+  lineHeight,
+  caseConverter
+}
 
 /// Sets the direction the dropdown menu opens
 enum DropdownMenuDirection { down, up }

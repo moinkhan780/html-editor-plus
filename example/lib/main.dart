@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:html_editor_plus/html_editor.dart';
-import 'package:file_picker/file_picker.dart';
 
 import 'plus/example_scaffold.dart';
 
@@ -10,7 +9,7 @@ void main() => runApp(HtmlEditorExampleApp(showPlusExample: false));
 class HtmlEditorExampleApp extends StatelessWidget {
   final bool showPlusExample;
 
-  const HtmlEditorExampleApp({this.showPlusExample = false});
+  const HtmlEditorExampleApp({super.key, this.showPlusExample = false});
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -31,10 +30,10 @@ class HtmlEditorExample extends StatefulWidget {
   final String title;
 
   @override
-  _HtmlEditorExampleState createState() => _HtmlEditorExampleState();
+  HtmlEditorExampleState createState() => HtmlEditorExampleState();
 }
 
-class _HtmlEditorExampleState extends State<HtmlEditorExample> {
+class HtmlEditorExampleState extends State<HtmlEditorExample> {
   String result = '';
   late final HtmlEditorController _controller;
 
@@ -72,7 +71,8 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
           onPressed: () {
             _controller.toggleCodeView();
           },
-          child: Text(r'<\>', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+          child: Text(r'<\>',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -88,93 +88,102 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                 htmlToolbarOptions: HtmlToolbarOptions(
                   toolbarPosition: ToolbarPosition.aboveEditor, //by default
                   toolbarType: ToolbarType.nativeScrollable, //by default
-                  onButtonPressed: (ButtonType type, bool? status, Function? updateStatus) {
-                    print("button '${type.name}' pressed, the current selected status is $status");
+                  onButtonPressed:
+                      (ButtonType type, bool? status, Function? updateStatus) {
+                    debugPrint(
+                        "button '${type.name}' pressed, the current selected status is $status");
                     return true;
                   },
-                  onDropdownChanged:
-                      (DropdownType type, dynamic changed, Function(dynamic)? updateSelectedItem) {
-                    print("dropdown '${type.name}' changed to $changed");
+                  onDropdownChanged: (DropdownType type, dynamic changed,
+                      Function(dynamic)? updateSelectedItem) {
+                    debugPrint("dropdown '${type.name}' changed to $changed");
                     return true;
                   },
-                  mediaLinkInsertInterceptor: (String url, InsertFileType type) {
-                    print(url);
+                  mediaLinkInsertInterceptor:
+                      (String url, InsertFileType type) {
+                    debugPrint(url);
                     return true;
                   },
-                  mediaUploadInterceptor: (PlatformFile file, InsertFileType type) async {
-                    print(file.name); //filename
-                    print(file.size); //size in bytes
-                    print(file.extension); //file extension (eg jpeg or mp4)
+                  mediaUploadInterceptor:
+                      (dynamic file, InsertFileType type) async {
+                    debugPrint(file.name); //filename
+                    debugPrint(file.size.toString()); //size in bytes
+                    debugPrint(
+                        file.extension); //file extension (eg jpeg or mp4)
                     return true;
                   },
                 ),
                 otherOptions: OtherOptions(height: 550),
                 callbacks: Callbacks(onBeforeCommand: (String? currentHtml) {
-                  print('html before change is $currentHtml');
+                  debugPrint('html before change is $currentHtml');
                 }, onChangeContent: (String? changed) {
-                  print('content changed to $changed');
+                  debugPrint('content changed to $changed');
                 }, onChangeCodeview: (String? changed) {
-                  print('code changed to $changed');
+                  debugPrint('code changed to $changed');
                 }, onChangeSelection: (EditorSettings settings) {
-                  print('parent element is ${settings.parentElement}');
-                  print('font name is ${settings.fontName}');
+                  debugPrint('parent element is ${settings.parentElement}');
+                  debugPrint('font name is ${settings.fontName}');
                 }, onDialogShown: () {
-                  print('dialog shown');
+                  debugPrint('dialog shown');
                 }, onEnter: () {
-                  print('enter/return pressed');
+                  debugPrint('enter/return pressed');
                 }, onFocus: () {
-                  print('editor focused');
+                  debugPrint('editor focused');
                 }, onBlur: () {
-                  print('editor unfocused');
+                  debugPrint('editor unfocused');
                 }, onBlurCodeview: () {
-                  print('codeview either focused or unfocused');
+                  debugPrint('codeview either focused or unfocused');
                 }, onInit: () {
-                  print('init');
+                  debugPrint('init');
                 },
                     //this is commented because it overrides the default Summernote handlers
                     /*onImageLinkInsert: (String? url) {
-                    print(url ?? "unknown url");
+                    debugPrint(url ?? "unknown url");
                   },
                   onImageUpload: (FileUpload file) async {
-                    print(file.name);
-                    print(file.size);
-                    print(file.type);
-                    print(file.base64);
+                    debugPrint(file.name);
+                    debugPrint(file.size);
+                    debugPrint(file.type);
+                    debugPrint(file.base64);
                   },*/
-                    onImageUploadError: (FileUpload? file, String? base64Str, UploadError error) {
-                  print(error.name);
-                  print(base64Str ?? '');
+                    onImageUploadError: (FileUpload? file, String? base64Str,
+                        UploadError error) {
+                  debugPrint(error.name);
+                  debugPrint(base64Str ?? '');
                   if (file != null) {
-                    print(file.name);
-                    print(file.size);
-                    print(file.type);
+                    debugPrint(file.name);
+                    debugPrint(file.size.toString());
+                    debugPrint(file.type);
                   }
                 }, onKeyDown: (int? keyCode) {
-                  print('$keyCode key downed');
-                  print('current character count: ${_controller.characterCount}');
+                  debugPrint('$keyCode key downed');
+                  debugPrint(
+                      'current character count: ${_controller.characterCount}');
                 }, onKeyUp: (int? keyCode) {
-                  print('$keyCode key released');
+                  debugPrint('$keyCode key released');
                 }, onMouseDown: () {
-                  print('mouse downed');
+                  debugPrint('mouse downed');
                 }, onMouseUp: () {
-                  print('mouse released');
+                  debugPrint('mouse released');
                 }, onNavigationRequestMobile: (String url) {
-                  print(url);
+                  debugPrint(url);
                   return NavigationActionPolicy.ALLOW;
                 }, onPaste: () {
-                  print('pasted into editor');
+                  debugPrint('pasted into editor');
                 }, onScroll: () {
-                  print('editor scrolled');
+                  debugPrint('editor scrolled');
                 }),
                 plugins: [
                   SummernoteAtMention(
                       getSuggestionsMobile: (String value) {
                         var mentions = <String>['test1', 'test2', 'test3'];
-                        return mentions.where((element) => element.contains(value)).toList();
+                        return mentions
+                            .where((element) => element.contains(value))
+                            .toList();
                       },
                       mentionsWeb: ['test1', 'test2', 'test3'],
                       onSelect: (String value) {
-                        print(value);
+                        debugPrint(value);
                       }),
                 ],
               ),
@@ -184,31 +193,36 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
+                      style: TextButton.styleFrom(
+                          backgroundColor: Colors.blueGrey),
                       onPressed: () {
                         _controller.undo();
                       },
-                      child: Text('Undo', style: TextStyle(color: Colors.white)),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
-                      onPressed: () {
-                        _controller.clear();
-                      },
-                      child: Text('Reset', style: TextStyle(color: Colors.white)),
+                      child:
+                          Text('Undo', style: TextStyle(color: Colors.white)),
                     ),
                     SizedBox(
                       width: 16,
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.secondary),
+                          backgroundColor: Colors.blueGrey),
+                      onPressed: () {
+                        _controller.clear();
+                      },
+                      child:
+                          Text('Reset', style: TextStyle(color: Colors.white)),
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary),
                       onPressed: () async {
                         var txt = await _controller.getText();
-                        if (txt.contains('src=\"data:')) {
+                        if (txt.contains('src="data:')) {
                           txt =
                               '<text removed due to base-64 data, displaying the text could cause the app to crash>';
                         }
@@ -226,7 +240,8 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.secondary),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary),
                       onPressed: () {
                         _controller.redo();
                       },
@@ -248,18 +263,21 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
+                      style: TextButton.styleFrom(
+                          backgroundColor: Colors.blueGrey),
                       onPressed: () {
                         _controller.disable();
                       },
-                      child: Text('Disable', style: TextStyle(color: Colors.white)),
+                      child: Text('Disable',
+                          style: TextStyle(color: Colors.white)),
                     ),
                     SizedBox(
                       width: 16,
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.secondary),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary),
                       onPressed: () async {
                         _controller.enable();
                       },
@@ -279,22 +297,27 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                   children: <Widget>[
                     TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.secondary),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary),
                       onPressed: () {
                         _controller.insertText('Google');
                       },
-                      child: Text('Insert Text', style: TextStyle(color: Colors.white)),
+                      child: Text('Insert Text',
+                          style: TextStyle(color: Colors.white)),
                     ),
                     SizedBox(
                       width: 16,
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.secondary),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary),
                       onPressed: () {
-                        _controller.insertHtml('''<p style="color: blue">Google in blue</p>''');
+                        _controller.insertHtml(
+                            '''<p style="color: blue">Google in blue</p>''');
                       },
-                      child: Text('Insert HTML', style: TextStyle(color: Colors.white)),
+                      child: Text('Insert HTML',
+                          style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -306,9 +329,11 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                   children: <Widget>[
                     TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.secondary),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary),
                       onPressed: () async {
-                        _controller.insertLink('Google linked', 'https://google.com', true);
+                        _controller.insertLink(
+                            'Google linked', 'https://google.com', true);
                       },
                       child: Text(
                         'Insert Link',
@@ -320,7 +345,8 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.secondary),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary),
                       onPressed: () {
                         _controller.insertNetworkImage(
                             'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png',
@@ -341,29 +367,35 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
-                      onPressed: () {
-                        _controller.addNotification('Info notification', NotificationType.info);
-                      },
-                      child: Text('Info', style: TextStyle(color: Colors.white)),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
+                      style: TextButton.styleFrom(
+                          backgroundColor: Colors.blueGrey),
                       onPressed: () {
                         _controller.addNotification(
-                            'Warning notification', NotificationType.warning);
+                            'Info notification', NotificationType.info);
                       },
-                      child: Text('Warning', style: TextStyle(color: Colors.white)),
+                      child:
+                          Text('Info', style: TextStyle(color: Colors.white)),
                     ),
                     SizedBox(
                       width: 16,
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.secondary),
+                          backgroundColor: Colors.blueGrey),
+                      onPressed: () {
+                        _controller.addNotification(
+                            'Warning notification', NotificationType.warning);
+                      },
+                      child: Text('Warning',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary),
                       onPressed: () async {
                         _controller.addNotification(
                             'Success notification', NotificationType.success);
@@ -378,9 +410,11 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.secondary),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary),
                       onPressed: () {
-                        _controller.addNotification('Danger notification', NotificationType.danger);
+                        _controller.addNotification(
+                            'Danger notification', NotificationType.danger);
                       },
                       child: Text(
                         'Danger',
@@ -397,19 +431,22 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
+                      style: TextButton.styleFrom(
+                          backgroundColor: Colors.blueGrey),
                       onPressed: () {
-                        _controller.addNotification(
-                            'Plaintext notification', NotificationType.plaintext);
+                        _controller.addNotification('Plaintext notification',
+                            NotificationType.plaintext);
                       },
-                      child: Text('Plaintext', style: TextStyle(color: Colors.white)),
+                      child: Text('Plaintext',
+                          style: TextStyle(color: Colors.white)),
                     ),
                     SizedBox(
                       width: 16,
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.secondary),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary),
                       onPressed: () async {
                         _controller.removeNotification();
                       },

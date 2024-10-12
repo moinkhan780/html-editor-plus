@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_keyboard_visibility_temp_fork/flutter_keyboard_visibility_temp_fork.dart';
 
 import '../core/editor_event.dart';
 import '../core/editor_file.dart';
@@ -125,7 +125,8 @@ class _HtmlEditorFieldState extends State<HtmlEditorField> {
   String get _filePath => _adapter.filePath;
   String get _viewId => _adapter.key;
 
-  Stream<bool> get _keyboardVisibilityStream => KeyboardVisibilityController().onChange;
+  Stream<bool> get _keyboardVisibilityStream =>
+      KeyboardVisibilityController().onChange;
 
   @override
   void initState() {
@@ -183,8 +184,10 @@ class _HtmlEditorFieldState extends State<HtmlEditorField> {
   Widget build(BuildContext context) => InAppWebView(
         key: ValueKey("webview_key_$_viewId"),
         initialFile: _filePath,
-        onWebViewCreated: (controller) => _adapter.webviewController = controller,
-        onLoadStop: (controller, url) => _adapter.loadSummernote(theme: Theme.of(context)),
+        onWebViewCreated: (controller) =>
+            _adapter.webviewController = controller,
+        onLoadStop: (controller, url) =>
+            _adapter.loadSummernote(theme: Theme.of(context)),
         onReceivedError: (controller, request, error) => debugPrint(
           "message: ${error.description}",
         ),
@@ -201,8 +204,10 @@ class _HtmlEditorFieldState extends State<HtmlEditorField> {
           return NavigationActionPolicy.ALLOW;
         },
         gestureRecognizers: {
-          Factory<VerticalDragGestureRecognizer>(() => VerticalDragGestureRecognizer()),
-          Factory<LongPressGestureRecognizer>(() => LongPressGestureRecognizer()),
+          Factory<VerticalDragGestureRecognizer>(
+              () => VerticalDragGestureRecognizer()),
+          Factory<LongPressGestureRecognizer>(
+              () => LongPressGestureRecognizer()),
         },
         onConsoleMessage: (controller, message) => debugPrint(message.message),
       );

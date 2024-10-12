@@ -1,4 +1,4 @@
-library editor_plus;
+library;
 
 export 'src/plus/editor/html_editor_none.dart'
     if (dart.library.html) 'src/plus/editor/html_editor_html.dart'

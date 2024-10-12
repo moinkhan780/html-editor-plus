@@ -39,24 +39,25 @@ class _HtmlEditorPlusExampleState extends State<HtmlEditorPlusExample> {
                 controller: _controller,
                 hint: "Your text here...",
                 allowUrlLoading: (uri) async {
-                  print("allowUrlLoading called with uri: $uri");
+                  debugPrint("allowUrlLoading called with uri: $uri");
                   return false;
                 },
                 jsInitBuilder: (js) => [
                   js,
                   "console.log('Hello from JS!');",
                 ].join(),
-                onInit: () => print("Editor ready!"),
-                onFocus: () => print("Focus gained!"),
-                onBlur: () => print("Focus lost!"),
-                onImageUpload: (value) => print("Image uploaded: $value"),
-                onImageUploadError: (value) => print("Image upload failed with error: $value"),
-                onKeyup: (value) => print("Key up event: $value"),
-                onKeydown: (value) => print("Key down event: $value"),
-                onMouseUp: () => print("Mouse up!"),
-                onMouseDown: () => print("Mouse down!"),
-                onChange: (value) => print("Value changed: $value"),
-                onUrlPressed: (value) => print("URL pressed: $value"),
+                onInit: () => debugPrint("Editor ready!"),
+                onFocus: () => debugPrint("Focus gained!"),
+                onBlur: () => debugPrint("Focus lost!"),
+                onImageUpload: (value) => debugPrint("Image uploaded: $value"),
+                onImageUploadError: (value) =>
+                    debugPrint("Image upload failed with error: $value"),
+                onKeyup: (value) => debugPrint("Key up event: $value"),
+                onKeydown: (value) => debugPrint("Key down event: $value"),
+                onMouseUp: () => debugPrint("Mouse up!"),
+                onMouseDown: () => debugPrint("Mouse down!"),
+                onChange: (value) => debugPrint("Value changed: $value"),
+                onUrlPressed: (value) => debugPrint("URL pressed: $value"),
               ),
             ),
             EditorControls(
@@ -97,12 +98,14 @@ class _HtmlEditorPlusExampleState extends State<HtmlEditorPlusExample> {
                   label: "Clear focus",
                 ),
                 ControlButton(
-                  onPressed: () => _controller.insertText(text: "Inserted text"),
+                  onPressed: () =>
+                      _controller.insertText(text: "Inserted text"),
                   icon: Icons.note_add,
                   label: "Insert text",
                 ),
                 ControlButton(
-                  onPressed: () => _controller.pasteHtml(html: "<b><i>Pasted html</i></b>"),
+                  onPressed: () =>
+                      _controller.pasteHtml(html: "<b><i>Pasted html</i></b>"),
                   icon: Icons.paste,
                   label: "Paste html",
                 ),
@@ -149,8 +152,8 @@ class _HtmlEditorPlusExampleState extends State<HtmlEditorPlusExample> {
       );
 
   void _onHtmlChanged() {
-    print("Controller HTML value: ${_controller.html}");
-    print("Controller character count: ${_controller.characterCount}");
-    print("Controller selection state: ${_controller.selectionState}");
+    debugPrint("Controller HTML value: ${_controller.html}");
+    debugPrint("Controller character count: ${_controller.characterCount}");
+    debugPrint("Controller selection state: ${_controller.selectionState}");
   }
 }
