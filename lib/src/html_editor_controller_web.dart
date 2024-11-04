@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:html' as html;
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:html_editor_plus/html_editor.dart';
 import 'package:html_editor_plus/src/html_editor_controller_unsupported.dart' as unsupported;
 import 'package:meta/meta.dart';
@@ -28,11 +29,9 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   @override
   Future<String> getText() async {
     _evaluateJavascriptWeb(data: {'type': 'toIframe: getText'});
-    var e = await html.window.onMessage
-        .firstWhere((element) => json.decode(element.data)['type'] == 'toDart: getText');
+    var e = await html.window.onMessage.firstWhere((element) => json.decode(element.data)['type'] == 'toDart: getText');
     String text = json.decode(e.data)['text'];
-    if (processOutputHtml &&
-        (text.isEmpty || text == '<p></p>' || text == '<p><br></p>' || text == '<p><br/></p>')) {
+    if (processOutputHtml && (text.isEmpty || text == '<p></p>' || text == '<p><br></p>' || text == '<p><br/></p>')) {
       text = '';
     }
     return text;
@@ -133,19 +132,14 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   /// Insert a network image at the position of the cursor in the editor
   @override
   void insertNetworkImage(String url, {String filename = ''}) {
-    _evaluateJavascriptWeb(
-        data: {'type': 'toIframe: insertNetworkImage', 'url': url, 'filename': filename});
+    _evaluateJavascriptWeb(data: {'type': 'toIframe: insertNetworkImage', 'url': url, 'filename': filename});
   }
 
   /// Insert a link at the position of the cursor in the editor
   @override
   void insertLink(String text, String url, bool isNewWindow) {
-    _evaluateJavascriptWeb(data: {
-      'type': 'toIframe: insertLink',
-      'text': text,
-      'url': url,
-      'isNewWindow': isNewWindow
-    });
+    _evaluateJavascriptWeb(
+        data: {'type': 'toIframe: insertLink', 'text': text, 'url': url, 'isNewWindow': isNewWindow});
   }
 
   /// Clears the focus from the webview by hiding the keyboard, calling the
@@ -153,8 +147,7 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   /// in case it was changed.
   @override
   void clearFocus() {
-    throw Exception(
-        'Flutter Web environment detected, please make sure you are importing package:html_editor_plus/html_editor.dart and check kIsWeb before calling this method.');
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
   /// Resets the height of the editor back to the original if it was changed to
@@ -186,8 +179,7 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   /// A function to quickly call a document.execCommand function in a readable format
   @override
   void execCommand(String command, {String? argument}) {
-    _evaluateJavascriptWeb(
-        data: {'type': 'toIframe: execCommand', 'command': command, 'argument': argument});
+    _evaluateJavascriptWeb(data: {'type': 'toIframe: execCommand', 'command': command, 'argument': argument});
   }
 
   /// A function to execute JS passed as a [WebScript] to the editor. This should
@@ -196,8 +188,7 @@ class HtmlEditorController extends unsupported.HtmlEditorController {
   Future<dynamic> evaluateJavascriptWeb(String name, {bool hasReturnValue = false}) async {
     _evaluateJavascriptWeb(data: {'type': 'toIframe: $name'});
     if (hasReturnValue) {
-      var e = await html.window.onMessage
-          .firstWhere((element) => json.decode(element.data)['type'] == 'toDart: $name');
+      var e = await html.window.onMessage.firstWhere((element) => json.decode(element.data)['type'] == 'toDart: $name');
       return json.decode(e.data);
     }
   }

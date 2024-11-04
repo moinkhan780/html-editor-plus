@@ -117,9 +117,9 @@ class ExpandIconDelegate extends SliverPersistentHeaderDelegate {
       child: IconButton(
         constraints: BoxConstraints(
           maxHeight: _size!,
-          maxWidth: _size!,
+          maxWidth: _size,
         ),
-        iconSize: _size! * 3 / 5,
+        iconSize: _size * 3 / 5,
         icon: Icon(
           _isExpanded ? Icons.expand_less : Icons.expand_more,
           color: Colors.grey,
@@ -265,8 +265,7 @@ class _DropdownMenuItemButtonState<T> extends State<_DropdownMenuItemButton<T>> 
   }
 
   static final Map<LogicalKeySet, Intent> _webShortcuts = <LogicalKeySet, Intent>{
-    LogicalKeySet(LogicalKeyboardKey.arrowDown):
-        const DirectionalFocusIntent(TraversalDirection.down),
+    LogicalKeySet(LogicalKeyboardKey.arrowDown): const DirectionalFocusIntent(TraversalDirection.down),
     LogicalKeySet(LogicalKeyboardKey.arrowUp): const DirectionalFocusIntent(TraversalDirection.up),
   };
 
@@ -527,8 +526,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
   final String? barrierLabel;
 
   @override
-  Widget buildPage(
-      BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         return _DropdownRoutePage<T>(
@@ -557,8 +555,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     var offset = kMaterialListPadding.top;
     if (items.isNotEmpty && index > 0) {
       assert(items.length == itemHeights.length);
-      offset +=
-          itemHeights.sublist(0, index).reduce((double total, double height) => total + height);
+      offset += itemHeights.sublist(0, index).reduce((double total, double height) => total + height);
     }
     return offset;
   }
@@ -853,8 +850,7 @@ class _DropdownButtonState<T> extends State<CustomDropdownButton<T>> with Widget
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _removeDropdownRoute();
-    WidgetsBinding.instance.focusManager
-        .removeHighlightModeListener(_handleFocusHighlightModeChange);
+    WidgetsBinding.instance.focusManager.removeHighlightModeListener(_handleFocusHighlightModeChange);
     focusNode!.removeListener(_handleFocusChanged);
     _internalNode?.dispose();
     super.dispose();
@@ -901,17 +897,12 @@ class _DropdownButtonState<T> extends State<CustomDropdownButton<T>> with Widget
     if (widget.items == null ||
         widget.items!.isEmpty ||
         (widget.value == null &&
-            widget.items!
-                .where((CustomDropdownMenuItem<T> item) => item.value == widget.value)
-                .isEmpty)) {
+            widget.items!.where((CustomDropdownMenuItem<T> item) => item.value == widget.value).isEmpty)) {
       _selectedIndex = null;
       return;
     }
 
-    assert(widget.items!
-            .where((CustomDropdownMenuItem<T> item) => item.value == widget.value)
-            .length ==
-        1);
+    assert(widget.items!.where((CustomDropdownMenuItem<T> item) => item.value == widget.value).length == 1);
     for (var itemIndex = 0; itemIndex < widget.items!.length; itemIndex++) {
       if (widget.items![itemIndex].value == widget.value) {
         _selectedIndex = itemIndex;
@@ -924,8 +915,7 @@ class _DropdownButtonState<T> extends State<CustomDropdownButton<T>> with Widget
 
   void _handleTap() {
     final textDirection = Directionality.maybeOf(context);
-    final menuMargin =
-        ButtonTheme.of(context).alignedDropdown ? _kAlignedMenuMargin : _kUnalignedMenuMargin;
+    final menuMargin = ButtonTheme.of(context).alignedDropdown ? _kAlignedMenuMargin : _kUnalignedMenuMargin;
 
     final menuItems = <_MenuItem<T>>[
       for (int index = 0; index < widget.items!.length; index += 1)
@@ -944,9 +934,7 @@ class _DropdownButtonState<T> extends State<CustomDropdownButton<T>> with Widget
     final navigator = Navigator.of(context);
     assert(_dropdownRoute == null);
     final itemBox = context.findRenderObject()! as RenderBox;
-    final itemRect =
-        itemBox.localToGlobal(Offset.zero, ancestor: navigator.context.findRenderObject()) &
-            itemBox.size;
+    final itemRect = itemBox.localToGlobal(Offset.zero, ancestor: navigator.context.findRenderObject()) & itemBox.size;
 
     _dropdownRoute = _DropdownRoute<T>(
       items: menuItems,
@@ -1054,8 +1042,7 @@ class _DropdownButtonState<T> extends State<CustomDropdownButton<T>> with Widget
       ));
     }
 
-    final padding =
-        ButtonTheme.of(context).alignedDropdown ? _kAlignedButtonPadding : _kUnalignedButtonPadding;
+    final padding = ButtonTheme.of(context).alignedDropdown ? _kAlignedButtonPadding : _kUnalignedButtonPadding;
 
     final Widget innerItemsWidget;
     if (items.isEmpty) {

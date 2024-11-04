@@ -6,12 +6,12 @@ version: 0.0.5
 homepage: https://github.com/vadrian89/html-editor-plus
 
 environment:
-  sdk: ">=3.0.1 <4.0.0"
-  flutter: ">=3.0.0"
+  sdk: ^3.5.4
+  flutter: ">=1.17.0"
 
 dependencies:
   equatable: ^2.0.5
-  file_picker: ^8.1.2
+  file_picker: ^8.1.3
   flex_color_picker: ^3.6.0
   flutter:
     sdk: flutter
